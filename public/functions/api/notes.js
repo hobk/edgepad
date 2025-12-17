@@ -4,8 +4,8 @@ export async function onRequestGet(context) {
         const { env } = context;
         
         // Get all notes from KV storage
-        // For demo purposes, we'll use a simple in-memory store simulation
-        // In production, this would use KV.list() or a database
+        // In production, this uses Cloudflare KV namespace
+        // In development without KV, the middleware will handle the request
         const notesKey = 'notes:all';
         const notesData = await env.NOTES_KV?.get(notesKey, 'json');
         

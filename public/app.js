@@ -56,20 +56,22 @@ class EdgePad {
                 const response = await fetch('/api/notes');
                 if (response.ok) {
                     this.notes = await response.json();
+                    this.useLocalStorage = false;
                     this.renderNotesList();
                     return;
                 }
-            } catch (apiError) {
+                // If response is not ok, fall back to localStorage
                 console.log('API not available, using localStorage');
+                this.useLocalStorage = true;
+            } catch (apiError) {
+                console.log('API error, using localStorage:', apiError.message);
                 this.useLocalStorage = true;
             }
             
             // Fallback to localStorage
-            if (this.useLocalStorage) {
-                const stored = localStorage.getItem('edgepad_notes');
-                this.notes = stored ? JSON.parse(stored) : [];
-                this.renderNotesList();
-            }
+            const stored = localStorage.getItem('edgepad_notes');
+            this.notes = stored ? JSON.parse(stored) : [];
+            this.renderNotesList();
         } catch (error) {
             console.error('Failed to load notes:', error);
             this.showToast('加载笔记失败', 'error');
@@ -203,12 +205,20 @@ class EdgePad {
             <div class="image-item">
                 <img src="${image}" alt="Note image ${index + 1}">
                 <div class="image-item-actions">
-                    <button class="image-item-btn" onclick="edgepad.removeImage(${index})" title="删除图片">
+                    <button class="image-item-btn" data-image-index="${index}" title="删除图片">
                         🗑️
                     </button>
                 </div>
             </div>
         `).join('');
+        
+        // Add event listeners to delete buttons
+        container.querySelectorAll('.image-item-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const index = parseInt(e.currentTarget.dataset.imageIndex);
+                this.removeImage(index);
+            });
+        });
     }
 
     async saveCurrentNote(silent = false) {
@@ -414,7 +424,11 @@ class EdgePad {
     }
 
     generateId() {
-        return Date.now().toString(36) + Math.random().toString(36).substring(2);
+        // Use crypto.randomUUID if available (modern browsers), fallback to timestamp + random
+        if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+            return crypto.randomUUID();
+        }
+        return Date.now().toString(36) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
     }
 
     showLoading(show) {

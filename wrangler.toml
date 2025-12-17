@@ -2,5 +2,12 @@ name = "edgepad"
 compatibility_date = "2024-01-01"
 pages_build_output_dir = "public"
 
+# KV namespace for storing notes (production only)
+# Create with: wrangler kv:namespace create NOTES_KV
+# Then uncomment and add your namespace ID:
+# [[kv_namespaces]]
+# binding = "NOTES_KV"
+# id = "your_kv_namespace_id"
+
 [env.production]
 name = "edgepad"
