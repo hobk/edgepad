@@ -1,0 +1,23 @@
+{
+  "name": "edgepad",
+  "version": "1.0.0",
+  "description": "基于边缘函数的图文记事本 (Image and text notepad based on edge functions)",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev public --compatibility-date=2024-01-01",
+    "deploy": "wrangler pages deploy public",
+    "build": "echo 'No build step required for static files'"
+  },
+  "keywords": [
+    "notepad",
+    "edge-functions",
+    "cloudflare",
+    "notes",
+    "images"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.78.0"
+  }
+}

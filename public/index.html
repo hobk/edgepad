@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdgePad - 图文记事本</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 EdgePad</h1>
+            <p class="subtitle">基于边缘函数的图文记事本</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Notes List Sidebar -->
+            <aside class="notes-sidebar">
+                <div class="sidebar-header">
+                    <h2>我的笔记</h2>
+                    <button id="newNoteBtn" class="btn btn-primary" title="新建笔记">
+                        <span>+</span> 新建
+                    </button>
+                </div>
+                <div id="notesList" class="notes-list">
+                    <!-- Notes will be dynamically loaded here -->
+                </div>
+            </aside>
+
+            <!-- Editor Area -->
+            <main class="editor-area">
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-state-icon">📝</div>
+                    <h2>选择或创建一个笔记</h2>
+                    <p>点击左侧的笔记或创建新笔记开始编辑</p>
+                </div>
+
+                <div id="editorContainer" class="editor-container" style="display: none;">
+                    <div class="editor-header">
+                        <input type="text" id="noteTitle" class="note-title" placeholder="笔记标题">
+                        <div class="editor-actions">
+                            <button id="imageBtn" class="btn btn-secondary" title="插入图片">
+                                🖼️ 图片
+                            </button>
+                            <button id="saveBtn" class="btn btn-success" title="保存">
+                                💾 保存
+                            </button>
+                            <button id="deleteBtn" class="btn btn-danger" title="删除">
+                                🗑️ 删除
+                            </button>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <textarea id="noteContent" class="note-editor" placeholder="在此输入笔记内容..."></textarea>
+                        <div id="imagesContainer" class="images-container"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Hidden file input for image upload -->
+    <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
+
+    <!-- Loading overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
